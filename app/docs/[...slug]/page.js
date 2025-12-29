@@ -3,9 +3,9 @@ import path from "path";
 import { marked } from "marked";
 import { notFound } from "next/navigation";
 
-export default function DocPage({ params }) {
+export default async function DocPage({ params }) {
   try {
-    const slugPath = params.slug.join("/"); // e.g. ["dart","data-types"]
+    const slugPath = await params.slug.join("/"); // e.g. ["dart","data-types"]
     const filePath = path.join(process.cwd(), "docs", `${slugPath}.md`);
 
     if (!fs.existsSync(filePath)) {
@@ -16,7 +16,7 @@ export default function DocPage({ params }) {
     const html = marked(md);
 
     return (
-      <div className="p-8 prose max-w-none markdown" dangerouslySetInnerHTML={{ __html: html }} />
+      <div className="px-8 py-4 prose mx-auto max-w-none markdown" dangerouslySetInnerHTML={{ __html: html }} />
     );
   } catch (err) {
     console.error("Error loading markdown:", err);
